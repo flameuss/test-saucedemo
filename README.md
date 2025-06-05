@@ -40,11 +40,11 @@ mochawesome-report/        # Relatórios HTML e JSON dos testes
 - **BDD com Cucumber:**
   - Cenários escritos em Gherkin (`login.feature`), facilitando entendimento por todos os stakeholders.
 - **Relatórios avançados:**
-  - Mochawesome gera relatórios detalhados em HTML e JSON, facilitando análise de execuções.
+  - Mochawesome gera relatórios detalhados em HTML e JSON, facilitando análise de execuções. O pipeline faz merge dos arquivos JSON e gera um relatório HTML consolidado.
 - **Plugins e suporte:**
   - Plugins são registrados no arquivo de suporte (`e2e.js`) e configurados no `cypress.config.js`.
 - **CI/CD:**
-  - Pipeline GitHub Actions para execução automática dos testes, upload de vídeos e relatórios.
+  - Pipeline GitHub Actions executa os testes, faz merge dos relatórios e faz upload dos artefatos (vídeos e relatórios).
 - **Organização de pastas:**
   - Estrutura clara e alinhada ao padrão Cypress, facilitando escalabilidade.
 - **Limpeza e clareza:**
@@ -108,11 +108,17 @@ Feature: Login
    npx cypress run --spec "cypress/e2e/Login/login.feature"
    ```
 3. Relatórios serão gerados em `mochawesome-report/` e vídeos em `cypress/videos/`.
+   - Para gerar o relatório HTML consolidado manualmente:
+     ```sh
+     npx mochawesome-merge mochawesome-report/.jsons/*.json > mochawesome-report/mochawesome.json
+     npx marge mochawesome-report/mochawesome.json -f report -o mochawesome-report
+     ```
 
 ---
 
 ## Integração Contínua (CI)
 - Pipeline GitHub Actions executa os testes a cada push/pull request.
+- Mescla os relatórios JSON do Mochawesome e gera um relatório HTML consolidado.
 - Artefatos de vídeo e relatórios são disponibilizados automaticamente.
 
 ---
