@@ -1,0 +1,46 @@
+name: CI - Cypress Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests (BDD e tradicionais)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          record: false
+          headless: true
+          spec: |
+            cypress/e2e/Login/login.feature
+            cypress/e2e/Login/testes_login.cy.js
+
+      - name: Upload Cypress videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Upload Mochawesome reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report
+          path: mochawesome-report
