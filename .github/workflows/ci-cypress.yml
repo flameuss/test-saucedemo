@@ -16,20 +16,31 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Check Node.js version
+        run: node -v
 
       - name: Run Cypress tests (BDD e tradicionais)
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           record: false
-          headless: true
           spec: |
             cypress/e2e/Login/login.feature
             cypress/e2e/Login/testes_login.cy.js
+
+      - name: List mochawesome-report contents (debug)
+        run: ls -lR mochawesome-report || true
+
+      - name: Merge Mochawesome reports
+        run: npx mochawesome-merge mochawesome-report/.jsons/*.json > mochawesome-report/mochawesome.json || true
+
+      - name: Generate Mochawesome HTML report
+        run: npx marge mochawesome-report/mochawesome.json -f report -o mochawesome-report || true
 
       - name: Upload Cypress videos
         if: always()
