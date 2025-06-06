@@ -14,7 +14,7 @@ cypress/
   e2e/
     Login/
       login.feature         # Cenários BDD em Gherkin
-      login.cy.js           # Step definitions integrados ao POM
+      login.js              # Step definitions integrados ao POM
       login.page.js         # Page Object Model para tela de login
       testes_login.cy.js    # Testes tradicionais Cypress
   support/
@@ -32,7 +32,7 @@ mochawesome-report/        # Relatórios HTML e JSON dos testes
 - **Page Object Model (POM):**
   - Centraliza ações e seletores da página em uma classe (`login.page.js`), promovendo reuso e fácil manutenção.
 - **Separação de responsabilidades:**
-  - Steps do Cucumber (`login.cy.js`) apenas descrevem o fluxo, delegando ações ao POM.
+  - Steps do Cucumber (`login.js`) apenas descrevem o fluxo, delegando ações ao POM.
 - **Comandos customizados:**
   - O arquivo `commands.js` implementa o comando `cy.login(username, password)`, centralizando o fluxo de login para reutilização em múltiplos testes.
 - **Variáveis de ambiente:**
@@ -80,7 +80,7 @@ Feature: Login
     Then devo ver a mensagem de erro
 ```
 
-### login.cy.js (Step Definitions)
+### login.js (Step Definitions)
 - Utiliza o POM para executar as ações descritas nos cenários.
 - Mantém o código limpo, reutilizável e fácil de manter.
 
@@ -113,6 +113,19 @@ Feature: Login
      npx mochawesome-merge mochawesome-report/.jsons/*.json > mochawesome-report/mochawesome.json
      npx marge mochawesome-report/mochawesome.json -f report -o mochawesome-report
      ```
+
+---
+
+## Acessando os Relatórios e Vídeos Gerados
+
+- **Relatório HTML Mochawesome:**
+  - [Abrir relatório](./mochawesome-report/report.html)
+- **Relatório JSON Mochawesome:**
+  - [Abrir JSON](./mochawesome-report/mochawesome.json)
+- **Vídeo do teste BDD:**
+  - [login.feature.mp4](./cypress/videos/login.feature.mp4)
+- **Vídeo do teste tradicional:**
+  - [testes_login.cy.js.mp4](./cypress/videos/testes_login.cy.js.mp4)
 
 ---
 
